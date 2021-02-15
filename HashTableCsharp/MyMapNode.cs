@@ -7,7 +7,7 @@ namespace HashTableCsharp
     class MyMapNode<K,V>
     {
         private readonly int size;
-        private readonly LinkedList<KeyValue<K, V>>[] items;
+        public readonly LinkedList<KeyValue<K, V>>[] items;
 
         public MyMapNode(int size)
         {
@@ -35,10 +35,29 @@ namespace HashTableCsharp
             return default(V);
         }
 
+        public bool Exists(K key)
+        {
+            int position = GetArrayPosition(key);
+            LinkedList<KeyValue<K, V>> linkedList = GetLinkedList(position);
+            foreach (KeyValue<K, V> item in linkedList)
+            {
+                if (item.Key.Equals(key))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+
         public void Add(K key, V value)
         {
             int position = GetArrayPosition(key);
             LinkedList<KeyValue<K, V>> linkedList = GetLinkedList(position);
+            if (Exists(key))
+            {
+                Remove(key);
+            }
             KeyValue<K, V> item = new KeyValue<K, V>() { Key = key, Value = value };
             linkedList.AddLast(item);
         }
@@ -78,6 +97,22 @@ namespace HashTableCsharp
         { 
             public k Key { get; set; }
             public v Value { get; set; }
+        }
+
+        public void PrintDictionary()
+        {
+            foreach (var linkedlist in items)
+            {
+                if (linkedlist == null)
+                {
+                    continue;
+                }
+                foreach (var item in linkedlist)
+                {
+                    Console.WriteLine(item.Key + "  " + item.Value);
+                }
+            }
+
         }
     }
 }
