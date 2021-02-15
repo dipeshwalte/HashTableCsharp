@@ -4,9 +4,8 @@ namespace HashTableCsharp
 {
     class Program
     {
-        public static void CountWordFrequency(string sentence)
+        public static void CountWordFrequency(string sentence, MyMapNode<string, int> frequencyDictionary)
         {
-            MyMapNode<string, int> frequencyDictionary = new MyMapNode<string, int>(10);
             string[] words = sentence.Split(' ');
             foreach (string word in words)
             {
@@ -25,10 +24,12 @@ namespace HashTableCsharp
         }
         static void Main(string[] args)
         {
-
-            CountWordFrequency("To be or not to be");
-            CountWordFrequency("Paranoids are not paranoid because they are paranoid but because they keep putting themselves deliberately into paranoid avoidable situations");
-
+            MyMapNode<string, int> frequencyDictionary = new MyMapNode<string, int>(10);
+            MyMapNode<string, int> frequencyDictionaryParanoid = new MyMapNode<string, int>(10);
+            CountWordFrequency("To be or not to be",frequencyDictionary);
+            CountWordFrequency("Paranoids are not paranoid because they are paranoid but because they keep putting themselves deliberately into paranoid avoidable situations",frequencyDictionaryParanoid);
+            frequencyDictionaryParanoid.Remove("avoidable");
+            frequencyDictionaryParanoid.PrintDictionary();
         }
     }
 }
